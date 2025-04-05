@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ai DeepFake and face swap Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(5, 0, 20, 0.8)), url('https://images.unsplash.com/photo-1632179026783-1d58d4cc76de?auto=format&fit=crop&w=1650&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin-top: 60px;
+            font-size: 36px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffd5;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            max-width: 600px;
+            margin: 30px auto;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        input[type="submit"] {
+            background-color: #00ffd5;
+            color: #000;
+            border: none;
+            padding: 12px 40px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 15px #00ffd5;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #00c9a7;
+            box-shadow: 0 0 25px #00ffcc;
+        }
+
+        h3 {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 600px;
+            font-size: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            text-align: center;
+        }
+
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 28px;
+            }
+
+            form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Ai DeepFake and face swap Detection</h2>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" id="image-input">
+        <div id="preview" class="image-preview"></div>
+        <input type="submit" value="Analyze Image">
+    </form>
+
+    {% if result %}
+        <h3>Prediction: {{ result }}</h3>
+    {% endif %}
+
+    <script>
+        // Image preview
+        document.getElementById('image-input').addEventListener('change', function(event) {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
